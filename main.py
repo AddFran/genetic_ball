@@ -30,13 +30,13 @@ def draw_convergence_graph(screen, fitness_history, rect):
     if max_fitness == 0:
         return
 
-    points = []
-    for i, fitness in enumerate(smoothed):
-        px = x + (i / (len(smoothed) - 1)) * w
-        py = y + h - (fitness / max_fitness) * h
+    points=[]
+    for i,fitness in enumerate(smoothed):
+        px=x+(i/(len(smoothed)-1))*w
+        py=y+h-(fitness / max_fitness)*h
         points.append((px, py))
 
-    pygame.draw.lines(screen, (200, 0, 0), False, points, 2)
+    pygame.draw.lines(screen,(200,0,0),False,points,2)
 
 def draw_text(screen,text,x,y,color=(0,0,0)):
     surface=FONT.render(text,True,color)
@@ -117,18 +117,7 @@ def main():
         ui_manager
     )
 
-    label_mut = pygame_gui.elements.UILabel(
-        pygame.Rect(panel_x, 280, WIDTH_PANEL - 20, 25),
-        "Tasa de mutacion:",
-        ui_manager
-    )
-    slider_mut = pygame_gui.elements.UIHorizontalSlider(
-        pygame.Rect(panel_x, 300, WIDTH_PANEL - 20, 25),
-        start_value=TASA_MUTACION,
-        value_range=(0.0, 1.0),
-        manager=ui_manager,
-        click_increment=0.01
-    )
+    
 
     label_time = pygame_gui.elements.UILabel(
         pygame.Rect(panel_x, 320, WIDTH_PANEL - 20, 25),
@@ -216,7 +205,8 @@ def main():
                 bolitas_por_pared = 1 + (wave // 3)
                 for _ in range(bolitas_por_pared * 4):
                     peligros.append(spawn_peligro())
-                wave += 1
+                if wave<20:
+                    wave+=1
 
             # Individuos
             for ind in poblacion:
@@ -246,11 +236,6 @@ def main():
             ui_manager.process_events(event)
 
             if event.type == pygame_gui.UI_HORIZONTAL_SLIDER_MOVED:
-                if event.ui_element == slider_mut:
-                    TASA_MUTACION = event.value
-                    label_mut.set_text(
-                        f"Tasa mutación: {TASA_MUTACION:.3f}"
-                    )
 
                 if event.ui_element == slider_time:
                     time_scale = event.value

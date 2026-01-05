@@ -205,12 +205,13 @@ def cruzar(padre1,padre2):
     hijo.radio_deteccion     =padre1.radio_deteccion
     hijo.num_peligros        =padre1.num_peligros
     hijo.fuerza_evasion      =padre1.fuerza_evasion
+    hijo.radius              =padre1.radius
 
     hijo.peso_peligro_cercano=padre2.peso_peligro_cercano 
     hijo.inercia_movimiento  =padre2.inercia_movimiento
     hijo.peso_centro         =padre2.peso_centro 
     hijo.zona_confort_centro =padre2.zona_confort_centro
-    hijo.radius              =padre2.radius
+    
 
     return hijo
 
@@ -258,14 +259,17 @@ def mutar2(individuo,tasa=TASA_MUTACION):
 
 def nueva_generacion(poblacion):
     poblacion.sort(key=lambda x: x.fitness,reverse=True)
-
     nueva=[]
 
     # Si se queda el mejor de lo mejor en cada generacion
-    elite=poblacion[0]
-    elite.fitness=0.0
-    elite.color=GREEN
-    nueva.append(elite)
+    for i in range(3):
+        elite=poblacion[i]
+        #elite.fitness=0.0
+        nueva.append(elite)
+    
+    #elite=poblacion[0]
+    ##elite.fitness=0.0
+    #nueva.append(elite)
 
     flag=True
     while len(nueva)<POPULATION_SIZE:
